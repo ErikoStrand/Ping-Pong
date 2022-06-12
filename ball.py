@@ -1,5 +1,6 @@
 import pygame
 import math
+import numpy as np
 class ball:
     def __init__(self, x, y, width, height, speed, starting_angle, display):
         self.x = x
@@ -14,11 +15,6 @@ class ball:
         
     def update(self, dt):
         #print(self.anglex, self.angley, "angles x, y")
-        #if self.x < 0:
-            #self.anglex -= 180
-        if self.x > 800 - self.width:
-            #print(self.y, "real")
-            self.anglex += 180
         if self.y < 0 + self.width/2:
             self.angley -= 180
         if self.y > 600 - self.width/2:
@@ -29,3 +25,10 @@ class ball:
         #print(self.x, self.y)
     def draw(self):
         pygame.draw.rect(self.display, (170, 170, 170), self.rect)
+    def reset(self):
+        angle = np.random.randint(0, 360)
+        self.anglex = angle
+        self.angley = angle
+        self.x = 400
+        self.y = 300
+        

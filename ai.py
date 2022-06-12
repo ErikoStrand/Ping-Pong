@@ -11,6 +11,7 @@ class Ai:
         self.display = display
         self.predict = False
         self.ballcenter = 0
+        self.score = 0
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
     def update(self, dt, anglex, angley, ballx, bally):
         self.anglex = anglex
@@ -27,7 +28,7 @@ class Ai:
                 self.angley += 180
             if self.ballx >= 800 - 75:
                 self.ballcenter = self.bally
-                print(self.ballcenter + self.height/2, "preditct")
+                print(self.ballcenter, "preditct")
                 self.predict = False
                 
         #print(self.ballcenter, "ball", self.y + self.height/2, "player")

@@ -8,6 +8,7 @@ class player:
         self.height = height
         self.speed = speed
         self.direction = 0
+        self.score = 0
         self.display = display
         #self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
     def update(self, dt):
