@@ -3,10 +3,11 @@ from ball import ball
 from ai import Ai
 import pygame, sys
 import numpy as np
-
+from pygame import mixer
 #values
 pygame.init()
 pygame.font.init()
+mixer.init()
 CLOCK = pygame.time.Clock()
 WIDTH, HEIGHT = 800, 600
 RUNNING = True
@@ -14,11 +15,12 @@ BACKGROUND = (230, 230, 230)
 DISPLAY = pygame.display.set_mode((WIDTH, HEIGHT))
 BLOCK_SPEED = 0.60
 BALL_SPEED = 50
+PLAYER_TURN = True
 # start
-ANGLE = np.random.randint(140, 220)
-balls = ball(WIDTH/2, HEIGHT/2, 25, 25, BALL_SPEED, ANGLE, DISPLAY)
+HIT_SOUND = pygame.mixer.Sound("hiteffect.wav")
+balls = ball(WIDTH/2, HEIGHT/2, 25, 25, BALL_SPEED, 180, DISPLAY)
 players = player(WIDTH - WIDTH + 50, 250, 25, 100, BLOCK_SPEED, DISPLAY)
-ai = Ai(WIDTH - 75, 250, 25, 100, BLOCK_SPEED, DISPLAY)
+ai = Ai(WIDTH - 75, 250, 25, 100, BLOCK_SPEED - 0.07, DISPLAY)
 
 def draw_text(text, font_size, color, x, y):
     font = pygame.font.Font("PokemonGB.ttf", font_size)
@@ -45,11 +47,16 @@ while RUNNING:
     if balls.x > 800:
         balls.reset()
         ai.score += 1
-    if balls.rect.colliderect(players.rect):
+    if balls.rect.colliderect(players.rect) and PLAYER_TURN:
+        PLAYER_TURN = not PLAYER_TURN
+        HIT_SOUND.play()
         balls.anglex -= 180
         balls.angley += hit()
         ai.predict = True
-    if balls.rect.colliderect(ai.rect):
+        
+    if balls.rect.colliderect(ai.rect) and not PLAYER_TURN:
+        PLAYER_TURN = not PLAYER_TURN
+        HIT_SOUND.play()
         print(balls.y, "real")
         balls.anglex += 180
         
